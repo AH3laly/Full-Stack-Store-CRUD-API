@@ -1,5 +1,7 @@
 package com.neurogine.storeapi.beans;
 
+import java.util.Date;
+
 public class ApiResponse<T> {
 
 	public static enum STATUS {
