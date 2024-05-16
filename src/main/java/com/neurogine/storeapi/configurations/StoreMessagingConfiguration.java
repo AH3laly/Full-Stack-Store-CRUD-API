@@ -117,4 +117,27 @@ public class StoreMessagingConfiguration {
     			.entityClass(Store.class);
     }
     
+    @Bean
+    @Autowired
+    public IntegrationFlow loadStore(MongoDatabaseFactory mongo) {
+    	return f -> f.handle(loadStoreRequest(mongo)).handle(new StoreProcessor(), "load");
+    }
+
+    @Bean
+    public MongoDbOutboundGatewaySpec loadStoreRequest(MongoDatabaseFactory mongo) {
+    	return MongoDb
+    			.outboundGateway(new MongoTemplate(mongo))
+    			.collectionName("store")
+    			.collectionCallback((c, m) -> {
+
+    				Store storePayload = ((Store) m.getPayload());
+    				
+    				Bson filter = Filters.eq("_id", new ObjectId(storePayload.getId()));
+    				Document result = c.find(filter).first();
+					
+    				return result;
+    			})
+    			.expectSingleResult(true)
+    			.entityClass(Store.class);
+    }
 }
