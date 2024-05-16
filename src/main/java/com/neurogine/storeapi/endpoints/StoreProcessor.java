@@ -1,5 +1,7 @@
 package com.neurogine.storeapi.endpoints;
 
+import org.bson.Document;
+
 import com.neurogine.storeapi.entities.Store;
 import com.neurogine.storeapi.entities.utils.ConvertUtils;
 
