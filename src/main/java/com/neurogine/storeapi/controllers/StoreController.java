@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -67,5 +68,22 @@ public class StoreController {
 		}
 	}
 	
-	public void delete() {};
+	@GetMapping("/{storeId}")
+	public ResponseEntity<ApiResponse<?>> get(
+		HttpServletRequest request,
+		@PathVariable("storeId") String storeId) {
+		
+		try {
+
+			Store store = new Store();
+			store.setId(storeId);
+			
+			Store result = storeService.load(store);
+			
+			return new ResponseEntity<>(new ApiResponse<Store>(ApiResponse.STATUS.OK, "LOADED", result), HttpStatus.OK);
+			
+		} catch (Exception e) {
+			return new ResponseEntity<>(new ApiResponse<String>(ApiResponse.STATUS.ERROR, e.getMessage(), ""), HttpStatus.BAD_REQUEST);
+		}
+	}
 }
