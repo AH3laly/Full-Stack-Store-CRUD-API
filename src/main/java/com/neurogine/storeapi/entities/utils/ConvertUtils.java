@@ -1,10 +1,10 @@
-package com.example.StoreAPI.entities.utils;
+package com.neurogine.storeapi.entities.utils;
 
 import java.util.Map;
 
 import org.bson.Document;
 
-import com.example.StoreAPI.entities.Store;
+import com.neurogine.storeapi.entities.Store;
 
 public class ConvertUtils {
 	

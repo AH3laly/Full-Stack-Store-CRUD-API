@@ -1,4 +1,4 @@
-package com.example.StoreAPI;
+package com.neurogine.storeapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

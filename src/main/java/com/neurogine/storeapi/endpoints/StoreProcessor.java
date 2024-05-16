@@ -1,6 +1,6 @@
-package com.example.StoreAPI.endpoints;
+package com.neurogine.storeapi.endpoints;
 
-import com.example.StoreAPI.entities.Store;
+import com.neurogine.storeapi.entities.Store;
 
 public class StoreProcessor {
 

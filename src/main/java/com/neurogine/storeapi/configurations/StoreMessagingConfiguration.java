@@ -1,4 +1,4 @@
-package com.example.StoreAPI.configurations;
+package com.neurogine.storeapi.configurations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,10 +12,10 @@ import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.mongodb.dsl.MongoDb;
 import org.springframework.integration.mongodb.dsl.MongoDbOutboundGatewaySpec;
 
-import com.example.StoreAPI.endpoints.StoreProcessor;
-import com.example.StoreAPI.entities.Store;
-import com.example.StoreAPI.entities.utils.ConvertUtils;
 import com.mongodb.client.result.InsertOneResult;
+import com.neurogine.storeapi.endpoints.StoreProcessor;
+import com.neurogine.storeapi.entities.Store;
+import com.neurogine.storeapi.entities.utils.ConvertUtils;
 
 @Configuration
 @IntegrationComponentScan("com.example.demo")
