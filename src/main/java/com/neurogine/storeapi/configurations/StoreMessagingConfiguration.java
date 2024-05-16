@@ -28,7 +28,7 @@ public class StoreMessagingConfiguration {
 	@MessagingGateway
     public interface StoreService {
 		@Gateway(requestChannel = "loadStore.input")
-        Store get(Store store);
+        Store get(String storeId);
         
         @Gateway(requestChannel = "createStore.input")
         Store create(Store store);
@@ -37,7 +37,7 @@ public class StoreMessagingConfiguration {
         Store update(Store store);
         
         @Gateway(requestChannel = "deleteStore.input")
-        Store delete(Store store);
+        Store delete(String storeId);
     }
 	
 	@Bean
@@ -111,8 +111,8 @@ public class StoreMessagingConfiguration {
     	return MongoDb.outboundGateway(new MongoTemplate(mongo))
     			.collectionName("store")
     			.collectionCallback((c, m) -> {
-    				Store storePayload = ((Store) m.getPayload());
-    				Bson filter = Filters.eq("_id", new ObjectId(storePayload.getId()));
+    				String storePayload = ((String) m.getPayload());
+    				Bson filter = Filters.eq("_id", new ObjectId(storePayload));
     				Document result = c.findOneAndDelete(filter);
     				return result;
     			})
@@ -133,9 +133,9 @@ public class StoreMessagingConfiguration {
     			.collectionName("store")
     			.collectionCallback((c, m) -> {
 
-    				Store storePayload = ((Store) m.getPayload());
+    				String storePayload = ((String) m.getPayload());
+    				Bson filter = Filters.eq("_id", new ObjectId(storePayload));
     				
-    				Bson filter = Filters.eq("_id", new ObjectId(storePayload.getId()));
     				Document result = c.find(filter).first();
 					
     				return result;

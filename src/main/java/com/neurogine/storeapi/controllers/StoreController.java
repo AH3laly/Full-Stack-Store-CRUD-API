@@ -57,10 +57,8 @@ public class StoreController {
 		HttpServletRequest request,
 		@PathVariable("storeId") String storeId) {
 		try {
-			Store store = new Store();
-			store.setId(storeId);
 
-			Store result = storeService.delete(store);
+			Store result = storeService.delete(storeId);
 			
 			return new ResponseEntity<>(new ApiResponse<Store>(ApiResponse.STATUS.OK, "DELETED", result), HttpStatus.OK);
 		} catch (Exception e) {
@@ -75,10 +73,7 @@ public class StoreController {
 		
 		try {
 
-			Store store = new Store();
-			store.setId(storeId);
-			
-			Store result = storeService.get(store);
+			Store result = storeService.get(storeId);
 			
 			return new ResponseEntity<>(new ApiResponse<Store>(ApiResponse.STATUS.OK, "LOADED", result), HttpStatus.OK);
 			
