@@ -15,7 +15,7 @@ public class ConvertUtils {
         document.put("tags", store.getTags());
         document.put("image", store.getImage());
         document.put("promotions", store.getPromotions());
-        document.put("ratings", store.getRating());
+        document.put("rating", store.getRating());
 		return document;
 	}
 
@@ -27,7 +27,7 @@ public class ConvertUtils {
 		store.setLocation((Map<String, Double>)document.get("location"));
 		store.setPromotions(document.getList("promotions", String.class));
 		store.setTags(document.getList("tags", String.class));
-		store.setRating(document.getDouble("ratings"));
+		store.setRating(document.getDouble("rating"));
 		return store;
 	}
 
