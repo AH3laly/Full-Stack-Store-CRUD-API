@@ -1,0 +1,19 @@
+{
+    "image": "http://cdn.example.com/store_image.jpg",
+    "name": "Store Name",
+    "location": {
+        "lat": -76.512016,
+        "lon": 38.29697
+    },
+    "tags": [
+        "Mart", 
+        "Grocery", 
+        "Supermarket"
+    ],
+    "promotions": [
+        "RM15.00 off item",
+        "Discounted items",
+        "In-Store Prices"
+    ],
+    "rating": 3.5
+}
