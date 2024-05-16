@@ -28,7 +28,7 @@ public class StoreMessagingConfiguration {
 	@MessagingGateway
     public interface StoreService {
 		@Gateway(requestChannel = "loadStore.input")
-        Store load(Store store);
+        Store get(Store store);
         
         @Gateway(requestChannel = "createStore.input")
         Store create(Store store);

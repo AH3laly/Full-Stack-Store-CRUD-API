@@ -78,7 +78,7 @@ public class StoreController {
 			Store store = new Store();
 			store.setId(storeId);
 			
-			Store result = storeService.load(store);
+			Store result = storeService.get(store);
 			
 			return new ResponseEntity<>(new ApiResponse<Store>(ApiResponse.STATUS.OK, "LOADED", result), HttpStatus.OK);
 			
