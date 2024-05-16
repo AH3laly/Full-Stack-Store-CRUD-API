@@ -56,4 +56,38 @@ public class StoreMessagingConfiguration {
     			.expectSingleResult(true)
     			.entityClass(Store.class);
     }
+    
+    @Bean
+    @Autowired
+    public IntegrationFlow updateStore(MongoDatabaseFactory mongo) {
+    	return f -> f
+    			.handle(updateStoreRequest(mongo))
+    			.handle(new StoreProcessor(), "update");		
+    }
+    
+    @Bean
+    public MongoDbOutboundGatewaySpec updateStoreRequest(MongoDatabaseFactory mongo) {
+    	return MongoDb.outboundGateway(new MongoTemplate(mongo))
+    			.collectionName("store")
+    			.collectionCallback((c, m) -> {
+    				Store storePayload = (Store) m.getPayload();
+    				
+    				Bson filter = Filters.eq("_id", new ObjectId(storePayload.getId()));
+
+    				Bson updates = Updates.combine(
+    						Updates.set("name", storePayload.getName()),
+    						Updates.set("image", storePayload.getImage()),
+    						Updates.set("tags", storePayload.getTags()),
+    						Updates.set("location", storePayload.getLocation()),
+    						Updates.set("promotions", storePayload.getPromotions()),
+    						Updates.set("rating", storePayload.getRating())
+					);
+    				
+    				c.updateMany(filter, updates);
+    				
+    				return storePayload;
+    			})
+    			.expectSingleResult(true)
+    			.entityClass(Store.class);
+    }
 }
