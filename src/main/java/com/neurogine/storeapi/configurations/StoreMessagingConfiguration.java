@@ -55,7 +55,9 @@ public class StoreMessagingConfiguration {
     			.collectionCallback((c, m) -> {
     				Store storePayload = (Store) m.getPayload();
     				InsertOneResult d = c.insertOne(ConvertUtils.ConvertStoreToDocument(storePayload));
-    				storePayload.setId(d.getInsertedId().toString());
+    				storePayload.setId(d.getInsertedId().asObjectId().getValue().toString());
+    				
+    				System.out.println();
     				return storePayload;
     			})
     			.expectSingleResult(true)
@@ -86,6 +88,7 @@ public class StoreMessagingConfiguration {
     						Updates.set("location", storePayload.getLocation()),
     						Updates.set("promotions", storePayload.getPromotions()),
     						Updates.set("rating", storePayload.getRating())
+    						
 					);
     				
     				c.updateMany(filter, updates);
