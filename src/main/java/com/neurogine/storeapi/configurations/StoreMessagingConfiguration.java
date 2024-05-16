@@ -1,5 +1,8 @@
 package com.neurogine.storeapi.configurations;
 
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +15,8 @@ import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.mongodb.dsl.MongoDb;
 import org.springframework.integration.mongodb.dsl.MongoDbOutboundGatewaySpec;
 
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.InsertOneResult;
 import com.neurogine.storeapi.endpoints.StoreProcessor;
 import com.neurogine.storeapi.entities.Store;
@@ -22,17 +27,17 @@ import com.neurogine.storeapi.entities.utils.ConvertUtils;
 public class StoreMessagingConfiguration {
 	@MessagingGateway
     public interface StoreService {
+		@Gateway(requestChannel = "loadStore.input")
+        Store load(Store store);
+        
         @Gateway(requestChannel = "createStore.input")
-        void create();
+        Store create(Store store);
         
         @Gateway(requestChannel = "updateStore.input")
-        void update();
-        
-        @Gateway(requestChannel = "loadStore.input")
-        void load();
+        Store update(Store store);
         
         @Gateway(requestChannel = "deleteStore.input")
-        void delete();
+        Store delete(Store store);
     }
 	
 	@Bean
@@ -90,4 +95,26 @@ public class StoreMessagingConfiguration {
     			.expectSingleResult(true)
     			.entityClass(Store.class);
     }
+    
+
+    @Bean
+    @Autowired
+    public IntegrationFlow deleteStore(MongoDatabaseFactory mongo) {
+    	return f -> f.handle(deleteStoreRequest(mongo)).handle(new StoreProcessor(), "delete");
+    }
+    
+    @Bean
+    public MongoDbOutboundGatewaySpec deleteStoreRequest(MongoDatabaseFactory mongo) {
+    	return MongoDb.outboundGateway(new MongoTemplate(mongo))
+    			.collectionName("store")
+    			.collectionCallback((c, m) -> {
+    				Store storePayload = ((Store) m.getPayload());
+    				Bson filter = Filters.eq("_id", new ObjectId(storePayload.getId()));
+    				Document result = c.findOneAndDelete(filter);
+    				return result;
+    			})
+    			.expectSingleResult(true)
+    			.entityClass(Store.class);
+    }
+    
 }
