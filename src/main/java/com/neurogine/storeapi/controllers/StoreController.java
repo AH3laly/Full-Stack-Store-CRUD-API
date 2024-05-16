@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,6 +51,21 @@ public class StoreController {
 		}
 	}
 	
-	public void get() {};
+	@DeleteMapping("/{storeId}")
+	public ResponseEntity<ApiResponse<?>> delete(
+		HttpServletRequest request,
+		@PathVariable("storeId") String storeId) {
+		try {
+			Store store = new Store();
+			store.setId(storeId);
+
+			Store result = storeService.delete(store);
+			
+			return new ResponseEntity<>(new ApiResponse<Store>(ApiResponse.STATUS.OK, "DELETED", result), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(new ApiResponse<String>(ApiResponse.STATUS.ERROR, e.getMessage(), ""), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	public void delete() {};
 }
