@@ -1,11 +1,12 @@
 package com.neurogine.storeapi.endpoints;
 
 import com.neurogine.storeapi.entities.Store;
+import com.neurogine.storeapi.entities.utils.ConvertUtils;
 
 public class StoreProcessor {
 
-	public Store load(Store store) {
-		return store;
+	public Store load(Document document) {
+		return ConvertUtils.ConvertDocumentToStore(document);
     }
 	
 	public Store create(Store store) {
@@ -16,8 +17,8 @@ public class StoreProcessor {
 		return store;
     }
 
-	public Store delete(Store store) {
-		return store;
+	public Store delete(Document document) {
+		return ConvertUtils.ConvertDocumentToStore(document);
     }
 
 }
