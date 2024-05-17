@@ -25,9 +25,9 @@ import com.neurogine.storeapi.utils.ConvertUtils;
 @Configuration
 @IntegrationComponentScan("com.example.demo")
 public class StoreMessagingConfiguration {
-	@MessagingGateway
+    @MessagingGateway
     public interface StoreService {
-		@Gateway(requestChannel = "loadStore.input")
+        @Gateway(requestChannel = "loadStore.input")
         Store get(String storeId);
         
         @Gateway(requestChannel = "createStore.input")
@@ -39,108 +39,108 @@ public class StoreMessagingConfiguration {
         @Gateway(requestChannel = "deleteStore.input")
         Store delete(String storeId);
     }
-	
-	@Bean
+    
+    @Bean
     @Autowired
     public IntegrationFlow createStore(MongoDatabaseFactory mongo) {
-    	return f -> f
-    			.handle(createStoreRequest(mongo))
-    			.handle(new StoreProcessor(), "create");
+        return f -> f
+                .handle(createStoreRequest(mongo))
+                .handle(new StoreProcessor(), "create");
     }
 
     @Bean
     public MongoDbOutboundGatewaySpec createStoreRequest(MongoDatabaseFactory mongo) {
-    	return MongoDb.outboundGateway(new MongoTemplate(mongo))
-    			.collectionName("store")
-    			.collectionCallback((c, m) -> {
-    				Store storePayload = (Store) m.getPayload();
-    				InsertOneResult d = c.insertOne(ConvertUtils.ConvertStoreToDocument(storePayload));
-    				storePayload.setId(d.getInsertedId().asObjectId().getValue().toString());
-    				
-    				System.out.println();
-    				return storePayload;
-    			})
-    			.expectSingleResult(true)
-    			.entityClass(Store.class);
+        return MongoDb.outboundGateway(new MongoTemplate(mongo))
+                .collectionName("store")
+                .collectionCallback((c, m) -> {
+                    Store storePayload = (Store) m.getPayload();
+                    InsertOneResult d = c.insertOne(ConvertUtils.ConvertStoreToDocument(storePayload));
+                    storePayload.setId(d.getInsertedId().asObjectId().getValue().toString());
+                    
+                    System.out.println();
+                    return storePayload;
+                })
+                .expectSingleResult(true)
+                .entityClass(Store.class);
     }
     
     @Bean
     @Autowired
     public IntegrationFlow updateStore(MongoDatabaseFactory mongo) {
-    	return f -> f
-    			.handle(updateStoreRequest(mongo))
-    			.handle(new StoreProcessor(), "update");		
+        return f -> f
+                .handle(updateStoreRequest(mongo))
+                .handle(new StoreProcessor(), "update");        
     }
     
     @Bean
     public MongoDbOutboundGatewaySpec updateStoreRequest(MongoDatabaseFactory mongo) {
-    	return MongoDb.outboundGateway(new MongoTemplate(mongo))
-    			.collectionName("store")
-    			.collectionCallback((c, m) -> {
-    				Store storePayload = (Store) m.getPayload();
-    				
-    				Bson filter = Filters.eq("_id", new ObjectId(storePayload.getId()));
+        return MongoDb.outboundGateway(new MongoTemplate(mongo))
+                .collectionName("store")
+                .collectionCallback((c, m) -> {
+                    Store storePayload = (Store) m.getPayload();
+                    
+                    Bson filter = Filters.eq("_id", new ObjectId(storePayload.getId()));
 
-    				Bson updates = Updates.combine(
-    						Updates.set("name", storePayload.getName()),
-    						Updates.set("image", storePayload.getImage()),
-    						Updates.set("tags", storePayload.getTags()),
-    						Updates.set("location", storePayload.getLocation()),
-    						Updates.set("promotions", storePayload.getPromotions()),
-    						Updates.set("rating", storePayload.getRating())
-    						
-					);
-    				
-    				c.updateMany(filter, updates);
-    				
-    				return storePayload;
-    			})
-    			.expectSingleResult(true)
-    			.entityClass(Store.class);
+                    Bson updates = Updates.combine(
+                            Updates.set("name", storePayload.getName()),
+                            Updates.set("image", storePayload.getImage()),
+                            Updates.set("tags", storePayload.getTags()),
+                            Updates.set("location", storePayload.getLocation()),
+                            Updates.set("promotions", storePayload.getPromotions()),
+                            Updates.set("rating", storePayload.getRating())
+                            
+                    );
+                    
+                    c.updateMany(filter, updates);
+                    
+                    return storePayload;
+                })
+                .expectSingleResult(true)
+                .entityClass(Store.class);
     }
     
 
     @Bean
     @Autowired
     public IntegrationFlow deleteStore(MongoDatabaseFactory mongo) {
-    	return f -> f.handle(deleteStoreRequest(mongo)).handle(new StoreProcessor(), "delete");
+        return f -> f.handle(deleteStoreRequest(mongo)).handle(new StoreProcessor(), "delete");
     }
     
     @Bean
     public MongoDbOutboundGatewaySpec deleteStoreRequest(MongoDatabaseFactory mongo) {
-    	return MongoDb.outboundGateway(new MongoTemplate(mongo))
-    			.collectionName("store")
-    			.collectionCallback((c, m) -> {
-    				String storePayload = ((String) m.getPayload());
-    				Bson filter = Filters.eq("_id", new ObjectId(storePayload));
-    				Document result = c.findOneAndDelete(filter);
-    				return result;
-    			})
-    			.expectSingleResult(true)
-    			.entityClass(Store.class);
+        return MongoDb.outboundGateway(new MongoTemplate(mongo))
+                .collectionName("store")
+                .collectionCallback((c, m) -> {
+                    String storePayload = ((String) m.getPayload());
+                    Bson filter = Filters.eq("_id", new ObjectId(storePayload));
+                    Document result = c.findOneAndDelete(filter);
+                    return result;
+                })
+                .expectSingleResult(true)
+                .entityClass(Store.class);
     }
     
     @Bean
     @Autowired
     public IntegrationFlow loadStore(MongoDatabaseFactory mongo) {
-    	return f -> f.handle(loadStoreRequest(mongo)).handle(new StoreProcessor(), "load");
+        return f -> f.handle(loadStoreRequest(mongo)).handle(new StoreProcessor(), "load");
     }
 
     @Bean
     public MongoDbOutboundGatewaySpec loadStoreRequest(MongoDatabaseFactory mongo) {
-    	return MongoDb
-    			.outboundGateway(new MongoTemplate(mongo))
-    			.collectionName("store")
-    			.collectionCallback((c, m) -> {
+        return MongoDb
+                .outboundGateway(new MongoTemplate(mongo))
+                .collectionName("store")
+                .collectionCallback((c, m) -> {
 
-    				String storePayload = ((String) m.getPayload());
-    				Bson filter = Filters.eq("_id", new ObjectId(storePayload));
-    				
-    				Document result = c.find(filter).first();
-					
-    				return result;
-    			})
-    			.expectSingleResult(true)
-    			.entityClass(Store.class);
+                    String storePayload = ((String) m.getPayload());
+                    Bson filter = Filters.eq("_id", new ObjectId(storePayload));
+                    
+                    Document result = c.find(filter).first();
+                    
+                    return result;
+                })
+                .expectSingleResult(true)
+                .entityClass(Store.class);
     }
 }

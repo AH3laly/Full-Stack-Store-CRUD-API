@@ -4,58 +4,58 @@ import java.util.Date;
 
 public class ApiResponse<T> {
 
-	public static enum STATUS {
-		OK,
-		ERROR
-	}
-	private STATUS statusCode;
-	private Date timestamp;
-	private String responseMessage;
-	private T payload;
-	
-	public ApiResponse(STATUS statusCode, String responseDesc) {
-		this.statusCode = statusCode;
-		this.timestamp = new Date();
-		this.responseMessage = responseDesc;
-	}
-	
-	public ApiResponse(STATUS statusCode, String responseDesc, T payload) {
-		this.statusCode = statusCode;
-		this.timestamp = new Date();
-		this.responseMessage = responseDesc;
-		this.payload = payload;
-	}
-	
-	public STATUS getStatusCode() {
-		return statusCode;
-	}
+    public static enum STATUS {
+        OK,
+        ERROR
+    }
 
-	public void setStatusCode(STATUS statusCode) {
-		this.statusCode = statusCode;
-	}
+    private STATUS statusCode;
+    private Date timestamp;
+    private String responseMessage;
+    private T payload;
+    
+    public ApiResponse(STATUS statusCode, String responseDesc) {
+        this.statusCode = statusCode;
+        this.timestamp = new Date();
+        this.responseMessage = responseDesc;
+    }
+    
+    public ApiResponse(STATUS statusCode, String responseDesc, T payload) {
+        this.statusCode = statusCode;
+        this.timestamp = new Date();
+        this.responseMessage = responseDesc;
+        this.payload = payload;
+    }
+    
+    public STATUS getStatusCode() {
+        return statusCode;
+    }
 
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
-	}
+    public void setStatusCode(STATUS statusCode) {
+        this.statusCode = statusCode;
+    }
 
-	public void setResponseMessage(String responseMessage) {
-		this.responseMessage = responseMessage;
-	}
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
 
-	public Date getTimestamp() {
-		return timestamp;
-	}
-	
-	public String getResponseMessage() {
-		return responseMessage;
-	}
+    public void setResponseMessage(String responseMessage) {
+        this.responseMessage = responseMessage;
+    }
 
-	public T getContent() {
-		return payload;
-	}
+    public Date getTimestamp() {
+        return timestamp;
+    }
+    
+    public String getResponseMessage() {
+        return responseMessage;
+    }
 
-	public void setContent(T content) {
-		this.payload = content;
-	}
-	
+    public T getContent() {
+        return payload;
+    }
+
+    public void setContent(T content) {
+        this.payload = content;
+    }
 }

@@ -21,64 +21,64 @@ import com.neurogine.storeapi.entities.Store;
 @RestController
 @RequestMapping("/api/store")
 public class StoreController {
-	
-	@Autowired
-	StoreMessagingConfiguration.StoreService storeService;
-	
-	@PostMapping
-	public ResponseEntity<ApiResponse<?>> create(
-		HttpServletRequest request,
-		@RequestBody Store store) {
-		try {
-			Store result = storeService.create(store);
-			return new ResponseEntity<>(new ApiResponse<Store>(ApiResponse.STATUS.OK, "CREATED", result), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new ApiResponse<String>(ApiResponse.STATUS.ERROR, e.getMessage(), ""), HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@PutMapping
-	public ResponseEntity<ApiResponse<?>> update(
-		HttpServletRequest request,
-		@RequestBody Store store) {
-		
-		try {
-			Store result = storeService.update(store);
-			return new ResponseEntity<>(new ApiResponse<Store>(ApiResponse.STATUS.OK, "UPDATED", result), HttpStatus.OK);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(new ApiResponse<String>(ApiResponse.STATUS.ERROR, e.getMessage(), ""), HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@DeleteMapping("/{storeId}")
-	public ResponseEntity<ApiResponse<?>> delete(
-		HttpServletRequest request,
-		@PathVariable("storeId") String storeId) {
-		try {
+    
+    @Autowired
+    StoreMessagingConfiguration.StoreService storeService;
+    
+    @PostMapping
+    public ResponseEntity<ApiResponse<?>> create(
+        HttpServletRequest request,
+        @RequestBody Store store) {
+        try {
+            Store result = storeService.create(store);
+            return new ResponseEntity<>(new ApiResponse<Store>(ApiResponse.STATUS.OK, "CREATED", result), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse<String>(ApiResponse.STATUS.ERROR, e.getMessage(), ""), HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @PutMapping
+    public ResponseEntity<ApiResponse<?>> update(
+        HttpServletRequest request,
+        @RequestBody Store store) {
+        
+        try {
+            Store result = storeService.update(store);
+            return new ResponseEntity<>(new ApiResponse<Store>(ApiResponse.STATUS.OK, "UPDATED", result), HttpStatus.OK);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new ApiResponse<String>(ApiResponse.STATUS.ERROR, e.getMessage(), ""), HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @DeleteMapping("/{storeId}")
+    public ResponseEntity<ApiResponse<?>> delete(
+        HttpServletRequest request,
+        @PathVariable("storeId") String storeId) {
+        try {
 
-			Store result = storeService.delete(storeId);
-			
-			return new ResponseEntity<>(new ApiResponse<Store>(ApiResponse.STATUS.OK, "DELETED", result), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new ApiResponse<String>(ApiResponse.STATUS.ERROR, e.getMessage(), ""), HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@GetMapping("/{storeId}")
-	public ResponseEntity<ApiResponse<?>> get(
-		HttpServletRequest request,
-		@PathVariable("storeId") String storeId) {
-		
-		try {
+            Store result = storeService.delete(storeId);
+            
+            return new ResponseEntity<>(new ApiResponse<Store>(ApiResponse.STATUS.OK, "DELETED", result), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse<String>(ApiResponse.STATUS.ERROR, e.getMessage(), ""), HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @GetMapping("/{storeId}")
+    public ResponseEntity<ApiResponse<?>> get(
+        HttpServletRequest request,
+        @PathVariable("storeId") String storeId) {
+        
+        try {
 
-			Store result = storeService.get(storeId);
-			
-			return new ResponseEntity<>(new ApiResponse<Store>(ApiResponse.STATUS.OK, "LOADED", result), HttpStatus.OK);
-			
-		} catch (Exception e) {
-			return new ResponseEntity<>(new ApiResponse<String>(ApiResponse.STATUS.ERROR, e.getMessage(), ""), HttpStatus.BAD_REQUEST);
-		}
-	}
+            Store result = storeService.get(storeId);
+            
+            return new ResponseEntity<>(new ApiResponse<Store>(ApiResponse.STATUS.OK, "LOADED", result), HttpStatus.OK);
+            
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse<String>(ApiResponse.STATUS.ERROR, e.getMessage(), ""), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

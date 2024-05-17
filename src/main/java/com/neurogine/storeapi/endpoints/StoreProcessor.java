@@ -7,20 +7,20 @@ import com.neurogine.storeapi.utils.ConvertUtils;
 
 public class StoreProcessor {
 
-	public Store load(Document document) {
-		return ConvertUtils.ConvertDocumentToStore(document);
+    public Store load(Document document) {
+        return ConvertUtils.ConvertDocumentToStore(document);
     }
-	
-	public Store create(Store store) {
-		return store;
-    }
-
-	public Store update(Store store) {
-		return store;
+    
+    public Store create(Store store) {
+        return store;
     }
 
-	public Store delete(Document document) {
-		return ConvertUtils.ConvertDocumentToStore(document);
+    public Store update(Store store) {
+        return store;
+    }
+
+    public Store delete(Document document) {
+        return ConvertUtils.ConvertDocumentToStore(document);
     }
 
 }
