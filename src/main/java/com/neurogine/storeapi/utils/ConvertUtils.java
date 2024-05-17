@@ -1,4 +1,4 @@
-package com.neurogine.storeapi.entities.utils;
+package com.neurogine.storeapi.utils;
 
 import java.util.Map;
 

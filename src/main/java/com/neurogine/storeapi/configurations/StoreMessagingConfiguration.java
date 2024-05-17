@@ -20,7 +20,7 @@ import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.InsertOneResult;
 import com.neurogine.storeapi.endpoints.StoreProcessor;
 import com.neurogine.storeapi.entities.Store;
-import com.neurogine.storeapi.entities.utils.ConvertUtils;
+import com.neurogine.storeapi.utils.ConvertUtils;
 
 @Configuration
 @IntegrationComponentScan("com.example.demo")
